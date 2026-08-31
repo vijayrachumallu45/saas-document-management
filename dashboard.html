@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — DocFlow</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
+</head>
+<body class="dashboard-page">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-small">
+        <span class="logo-icon">📄</span>
+        <span class="logo-text">DocFlow</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">☰</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-section="overview">
+        <span class="nav-icon">📊</span>
+        <span>Overview</span>
+      </a>
+      <a href="#" class="nav-item" data-section="documents">
+        <span class="nav-icon">📁</span>
+        <span>Documents</span>
+      </a>
+      <a href="#" class="nav-item" data-section="upload">
+        <span class="nav-icon">⬆️</span>
+        <span>Upload</span>
+      </a>
+      <a href="#" class="nav-item" data-section="shared">
+        <span class="nav-icon">🔗</span>
+        <span>Shared</span>
+      </a>
+      <a href="#" class="nav-item" data-section="trash">
+        <span class="nav-icon">🗑️</span>
+        <span>Trash</span>
+      </a>
+      <a href="#" class="nav-item" data-section="settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="avatar" id="userAvatar">U</div>
+        <div class="user-details">
+          <span class="user-name" id="userName">User</span>
+          <span class="user-email" id="userEmail">user@example.com</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="search-box">
+        <input type="text" id="globalSearch" placeholder="Search documents..." />
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-sm btn-primary" id="quickUploadBtn">+ Upload</button>
+        <div class="notification-bell">🔔</div>
+      </div>
+    </header>
+
+    <!-- Overview Section -->
+    <section id="section-overview" class="content-section active">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Welcome back! Here's what's happening with your documents.</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">📁</div>
+          <div class="stat-info">
+            <span class="stat-value" id="statTotal">0</span>
+            <span class="stat-label">Total Documents</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">⬆️</div>
+          <div class="stat-info">
+            <span class="stat-value" id="statRecent">0</span>
+            <span class="stat-label">Uploaded This Week</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🔗</div>
+          <div class="stat-info">
+            <span class="stat-value" id="statShared">0</span>
+            <span class="stat-label">Shared Files</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">💾</div>
+          <div class="stat-info">
+            <span class="stat-value" id="statStorage">0 MB</span>
+            <span class="stat-label">Storage Used</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <h3>Recent Documents</h3>
+            <a href="#" class="link" data-section="documents">View all</a>
+          </div>
+          <div class="recent-list" id="recentList">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Quick Actions</h3>
+          </div>
+          <div class="quick-actions">
+            <button class="action-btn" data-section="upload">
+              <span>⬆️</span> Upload Document
+            </button>
+            <button class="action-btn" data-section="documents">
+              <span>📁</span> Browse Files
+            </button>
+            <button class="action-btn" data-section="shared">
+              <span>🔗</span> Shared with Me
+            </button>
+            <button class="action-btn" data-section="settings">
+              <span>⚙️</span> Account Settings
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Documents Section -->
+    <section id="section-documents" class="content-section">
+      <div class="section-header">
+        <div>
+          <h1 class="page-title">Documents</h1>
+          <p class="page-subtitle">Manage all your files in one place</p>
+        </div>
+        <button class="btn btn-primary" id="newDocBtn">+ New Document</button>
+      </div>
+
+      <div class="toolbar">
+        <div class="filter-group">
+          <select id="filterType">
+            <option value="all">All Types</option>
+            <option value="pdf">PDF</option>
+            <option value="doc">Word</option>
+            <option value="xls">Excel</option>
+            <option value="img">Images</option>
+            <option value="other">Other</option>
+          </select>
+          <select id="sortBy">
+            <option value="date-desc">Newest first</option>
+            <option value="date-asc">Oldest first</option>
+            <option value="name-asc">Name A-Z</option>
+            <option value="name-desc">Name Z-A</option>
+            <option value="size-desc">Largest</option>
+          </select>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="list" title="List view">☰</button>
+          <button class="view-btn" data-view="grid" title="Grid view">▦</button>
+        </div>
+      </div>
+
+      <div class="documents-container" id="documentsContainer">
+        <!-- Filled by JS -->
+      </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="section-upload" class="content-section">
+      <h1 class="page-title">Upload Documents</h1>
+      <p class="page-subtitle">Drag & drop or select files to upload</p>
+
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon">☁️</div>
+        <h3>Drop files here</h3>
+        <p>or click to browse</p>
+        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.txt" hidden />
+        <button class="btn btn-primary" id="browseBtn">Browse Files</button>
+      </div>
+
+      <div class="upload-list" id="uploadList"></div>
+    </section>
+
+    <!-- Shared Section -->
+    <section id="section-shared" class="content-section">
+      <h1 class="page-title">Shared with Me</h1>
+      <p class="page-subtitle">Documents shared by your team</p>
+      <div class="empty-state">
+        <div class="empty-icon">🔗</div>
+        <h3>No shared documents yet</h3>
+        <p>When someone shares a file with you, it will appear here.</p>
+      </div>
+    </section>
+
+    <!-- Trash Section -->
+    <section id="section-trash" class="content-section">
+      <h1 class="page-title">Trash</h1>
+      <p class="page-subtitle">Deleted documents (auto-purged after 30 days)</p>
+      <div id="trashContainer" class="documents-container"></div>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="section-settings" class="content-section">
+      <h1 class="page-title">Settings</h1>
+      <p class="page-subtitle">Manage your account preferences</p>
+
+      <div class="settings-card card">
+        <h3>Profile</h3>
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" id="settingsName" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="settingsEmail" disabled />
+        </div>
+        <button class="btn btn-primary" id="saveSettings">Save Changes</button>
+      </div>
+
+      <div class="settings-card card">
+        <h3>Preferences</h3>
+        <label class="checkbox">
+          <input type="checkbox" id="prefNotifications" checked />
+          <span>Email notifications</span>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="prefDark" />
+          <span>Dark mode (demo)</span>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Modal for document preview / edit name -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
