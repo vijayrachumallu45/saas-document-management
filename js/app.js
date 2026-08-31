@@ -2,6 +2,7 @@
 
 const DOCS_KEY = 'docflow_documents';
 const TRASH_KEY = 'docflow_trash';
+const TRASH_RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 
 // ---------- Data helpers ----------
 function loadDocs() {
@@ -35,6 +36,18 @@ function saveTrash(items) {
   } catch (e) {
     console.warn('Could not save trash', e);
   }
+}
+
+function purgeExpiredTrash() {
+  const cutoff = Date.now() - TRASH_RETENTION_MS;
+  const items = loadTrash();
+  const retained = items.filter(item => {
+    const deletedAt = new Date(item.deletedAt || 0).getTime();
+    return Number.isNaN(deletedAt) || deletedAt >= cutoff;
+  });
+
+  if (retained.length !== items.length) saveTrash(retained);
+  return items.length - retained.length;
 }
 
 function generateId() {
@@ -329,6 +342,7 @@ function renderDocuments() {
 
 // ---------- Render Trash ----------
 function renderTrash() {
+  purgeExpiredTrash();
   const items = loadTrash();
   const container = document.getElementById('trashContainer');
   container.className = 'documents-container list';
@@ -609,6 +623,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!isLoggedIn()) return; // safety
 
   seedIfEmpty();
+  purgeExpiredTrash();
   updateUserUI();
   renderOverview();
 
