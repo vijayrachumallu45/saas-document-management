@@ -23,6 +23,15 @@
   --sidebar-width: 260px;
 }
 
+body.dark-theme {
+  --bg: #111827;
+  --surface: #1f2937;
+  --text: #f8fafc;
+  --text-muted: #cbd5e1;
+  --border: #475569;
+  --primary-light: #312e81;
+}
+
 html {
   font-size: 16px;
 }

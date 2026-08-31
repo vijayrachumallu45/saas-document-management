@@ -2,6 +2,7 @@
 
 const DOCS_KEY = 'docflow_documents';
 const TRASH_KEY = 'docflow_trash';
+const PREFS_KEY = 'docflow_preferences';
 
 // ---------- Data helpers ----------
 function loadDocs() {
@@ -505,11 +506,26 @@ function addUploadedFiles(files) {
 }
 
 // ---------- Settings ----------
+function loadPreferences() {
+  try {
+    return JSON.parse(localStorage.getItem(PREFS_KEY)) || { notifications: true, dark: false };
+  } catch {
+    return { notifications: true, dark: false };
+  }
+}
+
+function applyPreferences(preferences) {
+  document.body.classList.toggle('dark-theme', Boolean(preferences.dark));
+}
+
 function loadSettings() {
   const user = getUser();
   if (!user) return;
   document.getElementById('settingsName').value = user.name || '';
   document.getElementById('settingsEmail').value = user.email || '';
+  const preferences = loadPreferences();
+  document.getElementById('prefNotifications').checked = preferences.notifications;
+  document.getElementById('prefDark').checked = preferences.dark;
 }
 
 function saveSettings() {
@@ -521,8 +537,14 @@ function saveSettings() {
     user.avatar = name.charAt(0).toUpperCase();
     setUser(user);
     updateUserUI();
-    showToast('Settings saved');
   }
+  const preferences = {
+    notifications: document.getElementById('prefNotifications').checked,
+    dark: document.getElementById('prefDark').checked
+  };
+  localStorage.setItem(PREFS_KEY, JSON.stringify(preferences));
+  applyPreferences(preferences);
+  showToast('Settings saved');
 }
 
 function updateUserUI() {
@@ -609,6 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!isLoggedIn()) return; // safety
 
   seedIfEmpty();
+  applyPreferences(loadPreferences());
   updateUserUI();
   renderOverview();
 
