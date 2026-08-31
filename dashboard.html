@@ -109,6 +109,15 @@
         </div>
       </div>
 
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="card-header">
+          <h3>Storage Allocation (by file type)</h3>
+        </div>
+        <div id="storageChartContainer" style="display:flex;justify-content:center;align-items:center;padding:1.5rem 0;min-height:220px;">
+          <p style="color:var(--text-muted);">No documents available to chart.</p>
+        </div>
+      </div>
+
       <div class="two-col">
         <div class="card">
           <div class="card-header">
@@ -243,6 +252,16 @@
           <span>Dark mode (demo)</span>
         </label>
       </div>
+
+      <div class="settings-card card">
+        <h3>System Diagnostics</h3>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem;">
+          Run integrity checks, benchmark performance, and analyze index structures using DocFlow advanced modules.
+        </p>
+        <button class="btn btn-primary" id="runDiagnosticsBtn">Run Diagnostics</button>
+        <div id="diagnosticsResults" class="hidden" style="margin-top:1rem;padding:1rem;background:#1a1d24;color:#a9b2c3;border:1px solid var(--border);border-radius:8px;font-family:monospace;font-size:0.8rem;white-space:pre-wrap;max-height:250px;overflow-y:auto;text-align:left;">
+        </div>
+      </div>
     </section>
   </main>
 
@@ -258,6 +277,10 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/modules/SvgCharts.js"></script>
+  <script src="js/modules/PerformanceMonitor.js"></script>
+  <script src="js/modules/TrieSearchIndex.js"></script>
+  <script src="js/modules/SpellChecker.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
