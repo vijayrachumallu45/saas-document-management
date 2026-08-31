@@ -3,13 +3,34 @@
   "version": "1.0.0",
   "description": "DocFlow — Document Management demo (HTML/CSS/JS)",
   "private": true,
-  "main": "index.html",
+  "main": "server.js",
   "scripts": {
-    "start": "npx --yes serve . -p 8080",
-    "serve": "npx --yes serve . -p 8080",
-    "test": "node tests/auth.test.js && node tests/app.test.js",
-    "test:auth": "node tests/auth.test.js",
-    "test:app": "node tests/app.test.js"
+    "start": "node server.js",
+    "serve": "node server.js",
+    "build": "node server.js --check",
+    "verify": "npm run build && npm test",
+    "test": "nyc node tests/auth.test.js && nyc node tests/app.test.js",
+    "test:auth": "nyc node tests/auth.test.js",
+    "test:app": "nyc node tests/app.test.js"
+  },
+  "nyc": {
+    "exclude": [
+      "js/modules/**",
+      "tests/**"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
+    ],
+    "all": true,
+    "include": [
+      "js/auth.js",
+      "js/app.js",
+      "server.js"
+    ]
+  },
+  "devDependencies": {
+    "nyc": "^15.1.0"
   },
   "keywords": ["document-management", "saas-demo", "html", "css", "javascript"],
   "author": "DocFlow",
