@@ -98,15 +98,27 @@ function showToast(msg, duration = 2800) {
   setTimeout(() => toast.classList.add('hidden'), duration);
 }
 
+let modalTrigger = null;
+
 function showModal(html) {
   const modal = document.getElementById('modal');
   const body = document.getElementById('modalBody');
+  modalTrigger = document.activeElement;
   body.innerHTML = html;
   modal.classList.remove('hidden');
+  modal.setAttribute('aria-hidden', 'false');
+  const heading = body.querySelector('h3');
+  if (heading) heading.id = 'modalTitle';
+  const focusTarget = body.querySelector('input, button, [href], select, textarea') || document.getElementById('modalClose');
+  focusTarget?.focus();
 }
 
 function hideModal() {
-  document.getElementById('modal').classList.add('hidden');
+  const modal = document.getElementById('modal');
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden', 'true');
+  modalTrigger?.focus();
+  modalTrigger = null;
 }
 
 // ---------- Navigation ----------
@@ -724,6 +736,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('modalClose')?.addEventListener('click', hideModal);
   document.getElementById('modal')?.addEventListener('click', (e) => {
     if (e.target.id === 'modal') hideModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !document.getElementById('modal')?.classList.contains('hidden')) {
+      hideModal();
+    }
   });
 });
 // minor upload note
