@@ -28,6 +28,15 @@ if (process.argv.includes('--check')) {
 }
 
 http.createServer((request, response) => {
+  if (!['GET', 'HEAD'].includes(request.method)) {
+    response.writeHead(405, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Allow': 'GET, HEAD'
+    });
+    response.end('Method not allowed');
+    return;
+  }
+
   const requestPath = decodeURIComponent((request.url || '/').split('?')[0]);
   const safePath = path.normalize(requestPath === '/' ? '/index.html' : requestPath).replace(/^([/\\])+/, '');
   const filePath = path.resolve(root, safePath);
@@ -36,16 +45,25 @@ http.createServer((request, response) => {
     response.end('Forbidden');
     return;
   }
-  fs.readFile(filePath, (error, data) => {
+  fs.stat(filePath, (statError, stats) => {
+    if (statError || !stats.isFile()) {
+      response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+      response.end('Not found');
+      return;
+    }
+
+    fs.readFile(filePath, (error, data) => {
     if (error) {
-      response.writeHead(error.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'text/plain; charset=utf-8' });
-      response.end(error.code === 'ENOENT' ? 'Not found' : 'Server error');
+      response.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      response.end('Server error');
       return;
     }
     response.writeHead(200, {
       'Content-Type': mimeTypes[path.extname(filePath).toLowerCase()] || 'application/octet-stream',
-      'X-Content-Type-Options': 'nosniff'
+      'X-Content-Type-Options': 'nosniff',
+      'Content-Length': data.length
     });
-    response.end(data);
+    response.end(request.method === 'HEAD' ? undefined : data);
+    });
   });
 }).listen(port, () => console.log(`DocFlow is running at http://localhost:${port}`));
