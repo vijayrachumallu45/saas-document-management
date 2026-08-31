@@ -85,3 +85,4 @@ UNLICENSED — Proprietary / private use. No open-source license is applied.
 - Data is stored in the browser’s localStorage only.
 - No API keys, no backend, no external services required (except optional Google Fonts).
 - This is a frontend prototype / demo, not a production enterprise system.
+
