@@ -1,0 +1,20 @@
+{
+  "name": "docflow",
+  "version": "1.0.0",
+  "description": "DocFlow — Document Management demo (HTML/CSS/JS)",
+  "private": true,
+  "main": "index.html",
+  "scripts": {
+    "start": "npx --yes serve . -p 8080",
+    "serve": "npx --yes serve . -p 8080",
+    "test": "node tests/auth.test.js && node tests/app.test.js",
+    "test:auth": "node tests/auth.test.js",
+    "test:app": "node tests/app.test.js"
+  },
+  "keywords": ["document-management", "saas-demo", "html", "css", "javascript"],
+  "author": "DocFlow",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=16"
+  }
+}
