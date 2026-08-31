@@ -124,3 +124,5 @@ test('trash save/load works', () => {
 
 console.log(`\nResult: ${passed} passed, ${failed} failed\n`);
 process.exit(failed > 0 ? 1 : 0);
+// extra test note
+// extra coverage note
