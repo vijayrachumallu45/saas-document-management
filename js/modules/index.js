@@ -89,6 +89,12 @@ const ComponentRenderer = require('./ComponentRenderer');
 const VirtualDom = require('./VirtualDom');
 const WebComponent = require('./WebComponent');
 const AppInitializer = require('./AppInitializer');
+const DocumentIndexer = require('./DocumentIndexer');
+const AuditTrail = require('./AuditTrail');
+const QuotaManager = require('./QuotaManager');
+const CollaborationHub = require('./CollaborationHub');
+const RetentionPolicy = require('./RetentionPolicy');
+const VersionHistory = require('./VersionHistory');
 
 const modules = {
   TrieSearchIndex,
@@ -178,6 +184,12 @@ const modules = {
   VirtualDom,
   WebComponent,
   AppInitializer,
+  DocumentIndexer,
+  AuditTrail,
+  QuotaManager,
+  CollaborationHub,
+  RetentionPolicy,
+  VersionHistory,
 };
 
 if (typeof module !== 'undefined' && module.exports) {
